@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Model Download Chatbot (Python)</title>
+  <meta name="description" content="Simple Python chatbot that can download AI models on demand." />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-2: #38bdf8;
+      --border: #1f2937;
+      --code-bg: #0b1020;
+    }
+    html, body {
+      background: radial-gradient(1200px 600px at 30% 0%, rgba(34,197,94,0.15), transparent),
+                  radial-gradient(900px 400px at 80% 10%, rgba(56,189,248,0.12), transparent),
+                  var(--bg);
+      color: var(--text);
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+    .card {
+      background: rgba(17,24,39,0.65);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    }
+    h1 {
+      font-size: 2rem;
+      margin: 0 0 8px;
+      letter-spacing: 0.2px;
+    }
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 13px;
+      color: #0f172a;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      margin: 10px 0 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: 1.05fr 0.95fr;
+      }
+    }
+    .section {
+      background: rgba(15,23,42,0.55);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .section h2 {
+      font-size: 1.2rem;
+      margin: 0 0 12px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.55;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .code-title {
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .btn {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: #0b1224;
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+    .btn:hover { background: #0d1429; }
+    pre {
+      background: var(--code-bg);
+      color: #e6edf3;
+      border-radius: 12px;
+      border: 1px solid #111827;
+      padding: 16px;
+      overflow: auto;
+      max-height: 520px;
+      line-height: 1.5;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; }
+    .footer {
+      margin-top: 22px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .links {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .linkbtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0b1224;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .linkbtn:hover { background: #0d1429; }
+    .mono {
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>AI Model Download Chatbot (Python)</h1>
+      <div class="subtitle">Interactive CLI chatbot using Hugging Face Transformers with on‑demand model download capability.</div>
+      <span class="badge">Python • Transformers • Requests</span>
+
+      <div class="grid">
+        <div class="section">
+          <h2>Project overview</h2>
+          <ul>
+            <li><strong>Chatbot:</strong> Uses <span class="mono">microsoft/DialoGPT-small</span> for conversational replies.</li>
+            <li><strong>Model download:</strong> Fetches pre‑trained models from Hugging Face and saves locally.</li>
+            <li><strong>Command routing:</strong> Distinguishes between conversation and <span class="mono">download &lt;model-name&gt;</span> commands.</li>
+          </ul>
+          <h2 style="margin-top:16px;">How to run</h2>
+          <ul>
+            <li><strong>1. Install:</strong>
+              <div class="mono">pip install transformers requests</div>
+            </li>
+            <li><strong>2. Save script:</strong> Copy the code into <span class="mono">chatbot.py</span>.</li>
+            <li><strong>3. Run:</strong>
+              <div class="mono">python chatbot.py</div>
+            </li>
+            <li><strong>4. Use:</strong> Type normal text to chat, or:
+              <div class="mono">download bert-base-uncased</div>
+            </li>
+          </ul>
+          <div class="links">
+            <button class="btn" id="copyCodeBtn">Copy code</button>
+            <button class="btn" id="downloadBtn">Download chatbot.py</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="code-header">
+            <div class="code-title">chatbot.py</div>
+          </div>
+          <pre><code id="codeBlock">from transformers import pipeline
+import requests
+import os
+
+# Create a chatbot using a small pretrained model
+chatbot = pipeline("conversational", model="microsoft/DialoGPT-small")
+
+def chat_response(user_input):
+    conversation = chatbot(user_input)
+    return conversation[0]["generated_text"]
+
+def download_model(model_name, save_dir="models"):
+    os.makedirs(save_dir, exist_ok=True)
+    url = f"https://huggingface.co/{model_name}/resolve/main/pytorch_model.bin"
+    response = requests.get(url)
+    if response.status_code == 200:
+        file_path = os.path.join(save_dir, f"{model_name.replace("/", "_")}.bin")
+        with open(file_path, "wb") as f:
+            f.write(response.content)
+        return f"✅ Model {model_name} downloaded successfully to {file_path}"
+    else:
+        return f"❌ Failed to download {model_name}. Status: {response.status_code}"
+
+def chatbot_interface():
+    print("AI Model Chatbot 🤖 (type 'exit' to quit)")
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == "exit":
+            break
+        elif user_input.startswith("download"):
+            # Example: "download bert-base-uncased"
+            try:
+                _, model_name = user_input.split(" ", 1)
+                print(download_model(model_name.strip()))
+            except ValueError:
+                print("Please use: download &lt;model-name&gt;")
+        else:
+            print("Bot:", chat_response(user_input))
+
+if __name__ == "__main__":
+    chatbot_interface()</code></pre>
+          <div class="footer">
+            Note: This is a CLI demo. It requires internet access to download models and may take time depending on size.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const codeBlock = document.getElementById('codeBlock').innerText;
+
+    document.getElementById('copyCodeBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(codeBlock);
+        const btn = document.getElementById('copyCodeBtn');
+        const old = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = old, 1200);
+      } catch (e) {
+        alert('Copy failed. Please select and copy manually.');
+      }
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const blob = new Blob([codeBlock], { type: 'text/x-python' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'chatbot.py';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
